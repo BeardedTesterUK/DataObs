@@ -1,4 +1,5 @@
 import java.io.*;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -7,19 +8,34 @@ public class CSVRead {
 
     private static List<String[]> content;
     private static String[] blah;
+    private static String[] dataConverted;
+    private static List<String[]> updatedContent;
 
     public static void main(String[] args) throws IOException {
-        runProgram();
+        List<String[]> whatevre = runProgram();
     }
 
-    public static void runProgram() throws IOException {
-        content = ReadingData.readData();
-        for(int i=0; i< content.size();i++){
-            blah = content.get(i);}
-        String ha = blah[3];
-        String ta = ConvertingData.generateRandomString(ha);
-        System.out.println("New String is " + ta);
-    }
+    public static List<String[]> runProgram() throws IOException {
+            int i;
+            int j;
+            content = ReadingData.readData();
+            updatedContent = new ArrayList<>();
+            //outer loop;
+            for(i=0; i< content.size();i++){
+                blah = content.get(i); // Contains  surname, first, job, phone, other
+                //Create new Array
+                dataConverted = new String[blah.length];
+                //Inner Loop
+                for(j=0; j< blah.length; j++){
+                    String ha = blah[j]; // Contains surname
+                    String ta = ConvertingData.generateRandomString(ha); //Contains New Random Data
+                    // ta added to new Array
+                    dataConverted[j] = dataConverted[j] = ta;
+                } //End Inner Loop
+                updatedContent.add(dataConverted);
+            }
+            return updatedContent;
+        }
 
     static void splitText(String str){
         String[] arr = str.split("");
