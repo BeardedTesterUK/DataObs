@@ -1,67 +1,40 @@
 import java.io.*;
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Random;
-import java.util.Scanner;
 
 public class CSVRead {
 
-    private static List<String[]> content;
-    private static String[] blah;
-    private static String[] dataConverted;
+    private static List<String[]> originalData;
+    private static String[] dataLine;
+    private static String[] convertedDataArray;
     private static List<String[]> updatedContent;
 
     public static void main(String[] args) throws IOException {
-        List<String[]> whatevre = runProgram();
+        originalData = getOriginalData();
+        List<String[]> authorisedData = cycleAndConvertData(originalData);
+        CreateFile.createFile(authorisedData);
     }
 
-    public static List<String[]> runProgram() throws IOException {
-            int i;
-            int j;
-            content = ReadingData.readData();
-            updatedContent = new ArrayList<>();
+    public static List<String[]> getOriginalData() throws IOException {
+            return originalData = ReadingData.readData();
+        }
+
+    public static List<String[]> cycleAndConvertData(List<String[]> originalData) {
+        updatedContent = new ArrayList<>();
             //outer loop;
-            for(i=0; i< content.size();i++){
-                blah = content.get(i); // Contains  surname, first, job, phone, other
+            for(int i = 0; i< originalData.size(); i++){//Set i to Ignore headings
+                dataLine = originalData.get(i); // Contains  surname, first, job, phone, other
                 //Create new Array
-                dataConverted = new String[blah.length];
+                convertedDataArray = new String[dataLine.length];
                 //Inner Loop
-                for(j=0; j< blah.length; j++){
-                    String ha = blah[j]; // Contains surname
-                    String ta = ConvertingData.generateRandomString(ha); //Contains New Random Data
-                    // ta added to new Array
-                    dataConverted[j] = dataConverted[j] = ta;
+                for(int j = 0; j< dataLine.length; j++){
+                    String dataFieldContents = dataLine[j]; // Contains surname
+                    String convertedData = ConvertingData.generateRandomString(dataFieldContents); //Contains New Random Data
+                    // convertedData added to new Array
+                    convertedDataArray[j] = convertedDataArray[j] = convertedData;
                 } //End Inner Loop
-                updatedContent.add(dataConverted);
+                updatedContent.add(convertedDataArray);
             }
-            return updatedContent;
-        }
-
-    static void splitText(String str){
-        String[] arr = str.split("");
-        for(String character : arr)
-            System.out.println(character.toUpperCase());
+        return updatedContent;
     }
-
-        public static void scannerMethod() throws FileNotFoundException {
-            Scanner scan = new Scanner(new File("C:\\Users\\robert.stockton\\Desktop/CSVfile.csv"));
-            scan.useDelimiter(",");
-            while (scan.hasNext()) {
-                System.out.print(scan.next());
-            }
-            scan.close();
-        }
-
-        public static String[] splitFileMethod() throws IOException {
-            String line;
-            String splitBy = ",";
-
-            BufferedReader br = new BufferedReader(new FileReader("C:\\Users\\robert.stockton\\Desktop/CSVfile.csv"));
-            String[] employee = new String[0];
-            while ((line = br.readLine()) != null) {
-                employee = line.split(splitBy);
-                //System.out.println("Employee [First Name=" + employee[0] + ", Last Name=" + employee[1] + ", Designation=" + employee[2] + ", Contact=" + employee[3] + ", Salary= " + employee[4] + ", City= " + employee[5] + "]");
-            }
-            return employee;
-        }
-    }
+}

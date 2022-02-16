@@ -9,7 +9,7 @@ public class ReadingData {
 
     public static List<String[]> readData() throws IOException {
         int count = 0;
-        String file = "C:\\Users\\robert.stockton\\Desktop/CSVfile.csv";
+        String file = "DataObs/src/main/resources/CSVFile.csv";
         List<String[]> content = new ArrayList<>();
         try (BufferedReader br = new BufferedReader(new FileReader(file))) {
             String line;
